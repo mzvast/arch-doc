@@ -1,0 +1,29 @@
+---
+slug: mdx-blog-post
+title: MDX Blog Post
+authors: [slorber]
+tags: [docusaurus]
+---
+
+Blog posts support [Docusaurus Markdown features](https://docusaurus.io/docs/markdown-features), such as [MDX](https://mdxjs.com/).
+
+:::tip
+
+Use the power of React to create interactive blog posts.
+
+```js
+<button onClick={() => alert('button clicked!')}>Click me!</button>
+```
+
+<button onClick={() => alert('button clicked!')}>Click me!</button>
+
+:::
+
+```mermaid
+graph TD
+    A[用户] --> B{已登陆}
+    B -->|Y| C{已授权}
+    B -->|N| D[登录页面]
+    C -->|Y|E[项目管理页面]
+    C -->|N|F[入驻申请页面]
+```
