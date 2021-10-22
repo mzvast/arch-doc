@@ -3,6 +3,120 @@ sidebar_position: 1
 ---
 
 # VRCC 分析
+## 数据流向问题
+### 现状
+读
+```mermaid
+graph TD
+    A[V3D] -->|Adaptor-V3D2ES| B(ES)
+```
+写
+```mermaid
+graph TD
+    A[ES] -->|Adaptor-ES2V3D| B(V3D)
+    A --> |操作store|A
+```
+### 理想
+读
+```mermaid
+graph TD
+    A[V3D] -->|Adaptor-V3D2ES| B(ES)
+```
+写
+```mermaid
+graph TD
+    A[ES] -->|Adaptor-ES2V3D| B(V3D)
+```
+
+### case1,现状
+
+```mermaid
+classDiagram
+
+Depthpano *-- EditPanel
+EditPanel *-- HotspotEditor
+Depthpano --> PageConvert
+Depthpano --> Store
+HotspotEditor *-- Hotspot
+Hotspot --> HotspotControl
+class Adaptor{
+    V3D2ES()
+    ES2V3D()
+}
+PageConvert --> Adaptor
+HotspotControl --> Adaptor
+HotspotControl --> Store
+HotspotControl --> V3DManager
+class HotspotControl{
+    addHotstpot()
+    updateHotspot()
+    removeHotspot()
+}
+
+class Hotspot{
+    state
+    props
+}
+Hotspot --> Store
+class Store{
+    hotspots
+    setInEditing()
+    addStorageChange()
+    deleteStorageChange()
+    addHotspot()
+    removeHotspot()
+}
+Hotspot --> V3DManager
+Hotspot *-- CompX
+```
+
+### case2,新方案
+
+```mermaid
+classDiagram
+
+class Hotspot{
+    
+}
+Hotspot --> useEditorState
+class useHotspot{
+    <<Hook>>
+    data
+    addHotstpot()
+    updateHotspot()
+    removeHotspot()
+}
+class useStorage{
+    <<Hook>>
+    data
+    changeStorage()
+}
+class useEditorState{
+    <<Hook>>
+    isEditing
+    setIsEditing()
+}
+Hotspot --> useHotspot
+Hotspot --> useStorage
+useHotspot --> QueryManager
+class QueryManager{
+     loading
+    data
+    error
+    useQuery(key,dependency,fetcher)
+    refresh()
+}
+useHotspot --> V3DAPI
+useStorage --> StorageAPI
+useStorage --> QueryManager
+class Adaptor{
+    V3D2ES()
+    ES2V3D()
+}
+V3DAPI --> Adaptor
+V3DAPI --> V3DSDK
+Hotspot *-- CompX
+```
 
 ## Depthpano.Hotspot
 
