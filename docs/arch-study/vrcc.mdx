@@ -239,3 +239,35 @@ classDiagram
 
 
 ```
+
+## Depthpano.Hotspot POC
+
+```mermaid
+classDiagram
+ direction LR
+    class HotspotEditor{
+
+    }
+
+    class HotspotControl{
+	
+    }
+
+    class HotspotList{
+
+    }
+
+    
+
+    Hotspot *-- HotspotList
+    Hotspot *-- HotspotIconList
+    Hotspot *-- HotspotPanel
+    
+    HotspotEditor *-- Hotspot
+    HotspotEditor --> HotspotControl
+    HotspotPanel *-- FuncEditors
+    HotspotPanel *-- StickyHeader
+    HotspotPanel *-- SmartBottom
+    HotspotPanel *-- ImgUploader
+    FuncEditors *-- PanoLabel
+```
